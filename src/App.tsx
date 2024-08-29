@@ -9,7 +9,11 @@ import { handleSwapOption } from "./helpers/handleSwapOption";
 import { useState } from "react";
 import ModalSetting from "./components/ModalSetting/ModalSetting";
 import { RootState } from "./store/store";
-import { handleRenderImage } from "./utils/handleRenderImage";
+import background from "../public/background.png";
+import fullScreen from "../public/fullScreen.png";
+import fullScreenNight from "../public/fullScreen_night.png";
+import menu from "../public/menu.png";
+import menuNight from "../public/menu_night.png";
 
 function App() {
     const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -75,11 +79,6 @@ function App() {
             className="app"
             style={{ background: `${isDark ? "#171319" : ""}` }}
         >
-            <img
-                src={handleRenderImage("brick")}
-                alt=""
-                style={{ width: "100px", height: "100px" }}
-            />
             <div className={`${isOpen ? "modal" : "none"}`}>
                 <ModalSetting handleCloseModal={handleCloseModal} />
             </div>
@@ -89,7 +88,7 @@ function App() {
                     style={{
                         position: "relative",
                         backgroundImage: `${
-                            isDark ? "" : "url(../public/background.png)"
+                            isDark ? "" : `url(${background})`
                         }`,
                     }}
                 >
@@ -98,9 +97,7 @@ function App() {
                         onClick={() => handleFullScreen()}
                         style={{
                             backgroundImage: `url(${
-                                isDark
-                                    ? "../public/fullScreen_night.png"
-                                    : "../public/fullScreen.png"
+                                isDark ? fullScreenNight : fullScreen
                             })`,
                         }}
                     ></div>
@@ -230,9 +227,7 @@ function App() {
                         className="btn btn-menu"
                         style={{
                             backgroundImage: `url(${
-                                isDark
-                                    ? "../public/menu_night.png"
-                                    : "../public/menu.png"
+                                isDark ? menuNight : menu
                             })`,
                         }}
                         onClick={() => setIsOpen(true)}
