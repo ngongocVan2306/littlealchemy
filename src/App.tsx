@@ -9,7 +9,7 @@ import { handleSwapOption } from "./helpers/handleSwapOption";
 import { useState } from "react";
 import ModalSetting from "./components/ModalSetting/ModalSetting";
 import { RootState } from "./store/store";
-import fire from "../public/fire.png";
+import { handleRenderImage } from "./utils/handleRenderImage";
 
 function App() {
     const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -76,7 +76,7 @@ function App() {
             style={{ background: `${isDark ? "#171319" : ""}` }}
         >
             <img
-                src={fire}
+                src={handleRenderImage("brick")}
                 alt=""
                 style={{ width: "100px", height: "100px" }}
             />
