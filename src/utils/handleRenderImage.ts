@@ -2,7 +2,6 @@ import { TItem } from "./interface";
 import fire from "../../public/fire.png";
 import air from "../../public/air.png";
 import brick from "../../public/brick.png";
-import clear from "../../public/clear.png";
 import dust from "../../public/dust.png";
 import earth from "../../public/earth.png";
 import energy from "../../public/energy.png";
@@ -49,9 +48,7 @@ export const handleRenderImage = (type: TItem) => {
             return sea;
         case "steam":
             return steam;
-        case "volcano":
-            return volcano;
         default:
-            return clear;
+            return volcano;
     }
 };

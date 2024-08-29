@@ -61,6 +61,10 @@ export const optionSlice = createSlice({
                 }
             });
 
+            console.log(xItemOld);
+            console.log(yItemOld);
+            console.log("action>>>", action.payload);
+
             // nếu đổi được
 
             if (isChange && uuidChange) {

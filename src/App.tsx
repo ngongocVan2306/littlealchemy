@@ -36,6 +36,8 @@ function App() {
         (state: RootState) => state.themeSlice.isDark
     );
 
+    console.log(listItem);
+
     const dispatch = useAppDispatch();
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -114,11 +116,12 @@ function App() {
                             return (
                                 <Draggable
                                     key={item.uuid}
-                                    onStop={(data) => handleStop(data, item)}
+                                    onStop={(_e, data) =>
+                                        handleStop(data, item)
+                                    }
                                     position={{ x: item.x, y: item.y }}
                                 >
                                     <div
-                                        className=""
                                         style={{
                                             display: "flex",
                                             flexDirection: "column",
