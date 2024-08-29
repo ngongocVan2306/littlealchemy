@@ -6,6 +6,10 @@ import FormSetting from "./FormSetting/FormSetting";
 import FormAchievement from "./FormAchievement/FormAchievement";
 import { useAppSelector } from "../../hooks/hooks";
 import { RootState } from "../../store/store";
+import iconHome from "../../../public/home.svg";
+import iconStar from "../../../public/star.svg";
+import iconSetting from "../../../public/setting.svg";
+import iconClose from "../../../public/close.png";
 
 const ModalSetting = memo(function ModalSetting({
     handleCloseModal,
@@ -36,7 +40,10 @@ const ModalSetting = memo(function ModalSetting({
                         }}
                         onClick={() => setStatus("home")}
                     >
-                        <div className="icon icon-home"></div>
+                        <div
+                            className="icon icon-home"
+                            style={{ backgroundImage: `url(${iconHome})` }}
+                        ></div>
                         Home
                     </li>
 
@@ -48,7 +55,11 @@ const ModalSetting = memo(function ModalSetting({
                         }}
                         onClick={() => setStatus("setting")}
                     >
-                        <div className="icon icon-setting"></div> Settings
+                        <div
+                            className="icon icon-setting"
+                            style={{ backgroundImage: `url(${iconSetting})` }}
+                        ></div>{" "}
+                        Settings
                     </li>
 
                     <li
@@ -61,13 +72,17 @@ const ModalSetting = memo(function ModalSetting({
                         }}
                         onClick={() => setStatus("achievement")}
                     >
-                        <div className="icon icon-Achievement"></div>
+                        <div
+                            className="icon icon-Achievement"
+                            style={{ backgroundImage: `url(${iconStar})` }}
+                        ></div>
                         Achievements
                     </li>
                 </ul>
                 <div
                     className="icon-close"
                     onClick={() => handleCloseModal()}
+                    style={{ backgroundImage: `url(${iconClose})` }}
                 ></div>
             </div>
 

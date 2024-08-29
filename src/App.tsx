@@ -14,6 +14,12 @@ import fullScreen from "../public/fullScreen.png";
 import fullScreenNight from "../public/fullScreen_night.png";
 import menu from "../public/menu.png";
 import menuNight from "../public/menu_night.png";
+import { handleRenderImage } from "./utils/handleRenderImage";
+import sibar from "../public/sibar.png";
+import levelTow from "../public/level2.png";
+import leveTwoNight from "../public/level2_night.png";
+import clear from "../public/clear.png";
+import clearNight from "../public/clear_night.png";
 
 function App() {
     const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -124,7 +130,7 @@ function App() {
                                     >
                                         <img
                                             className="item"
-                                            src={`../${item.img}`}
+                                            src={handleRenderImage(item.name)}
                                             alt="item"
                                             title={item.name}
                                         />
@@ -149,9 +155,7 @@ function App() {
                 <div
                     className="col-right"
                     style={{
-                        backgroundImage: `${
-                            isDark ? "" : "url(../public/sibar.png)"
-                        }`,
+                        backgroundImage: `${isDark ? "" : `url(${sibar})`}`,
                     }}
                 >
                     <div className="list-char">
@@ -170,7 +174,7 @@ function App() {
                                         onClick={() => handleCreateItem(item)}
                                     >
                                         <img
-                                            src={`../${item.img}`}
+                                            src={handleRenderImage(item.name)}
                                             alt="item"
                                         />
                                         <p
@@ -204,9 +208,7 @@ function App() {
                         }}
                         style={{
                             backgroundImage: `url(${
-                                isDark
-                                    ? "../public/level2_night.png"
-                                    : "../public/level2.png"
+                                isDark ? leveTwoNight : levelTow
                             })`,
                         }}
                     ></div>
@@ -216,9 +218,7 @@ function App() {
                         onClick={() => handleClear()}
                         style={{
                             backgroundImage: `url(${
-                                isDark
-                                    ? "../public/clear_night.png"
-                                    : "../public/clear.png"
+                                isDark ? clearNight : clear
                             })`,
                         }}
                     ></div>

@@ -1,4 +1,7 @@
 import { useAppSelector } from "../../../hooks/hooks";
+import facebook from "../../../../public/facebook.png";
+import google from "../../../../public/google.png";
+import twitter from "../../../../public/twitter.png";
 
 export default function FormHome() {
     const isDark = useAppSelector((state) => state.themeSlice.isDark);
@@ -28,17 +31,17 @@ export default function FormHome() {
                 }}
             >
                 <img
-                    src="../../../public/twitter.png"
+                    src={twitter}
                     alt="twiter"
                     style={{ width: "60px", marginRight: "20px" }}
                 />
                 <img
-                    src="../../../public/google.png"
+                    src={google}
                     alt="google"
                     style={{ width: "60px", marginRight: "20px" }}
                 />
                 <img
-                    src="../../../public/facebook.png"
+                    src={facebook}
                     alt="facebook"
                     style={{ width: "60px", marginRight: "20px" }}
                 />

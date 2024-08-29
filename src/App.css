@@ -114,21 +114,7 @@
                 }
             }
     
-            .btn-level2{
-               
-                background-image: url("../public/level2.png");
-                
-            }
-    
-            .btn-clear{
-                background-image: url("../public/clear.png");
-                
-            }
-    
-            .btn-menu{
-                background-image: url("../public/menu.png");
-               
-            } 
+           
         }
     }
     

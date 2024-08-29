@@ -3,18 +3,19 @@ import fire from "../../public/fire.png";
 import air from "../../public/air.png";
 import brick from "../../public/brick.png";
 import clear from "../../public/clear.png";
-// import bacground from "../../public/background.png";
-// import clear_night from "../../public/clear_night.png";
-// import close from "../../public/close.png";
-// import dust from "../../public/dust.png";
-// import earth from "../../public/earth.png";
-// import anergy from "../../public/energy.png";
-// import facebook from "../../public/facebook.png";
-// import fullScreen_night from "../../public/fullScreen_night.png";
-// import fullScreen from "../../public/fullScreen.png";
-// import garden from "../../public/garden.png";
-// import google from "../../public/google.png";
-// import home from "../../public/home.svg"
+import dust from "../../public/dust.png";
+import earth from "../../public/earth.png";
+import energy from "../../public/energy.png";
+import garden from "../../public/garden.png";
+import water from "../../public/water.png";
+import lava from "../../public/lava.png";
+import mud from "../../public/mud.png";
+import plant from "../../public/plant.png";
+import pressure from "../../public/pressure.png";
+import rain from "../../public/rain.png";
+import sea from "../../public/sea.png";
+import steam from "../../public/steam.png";
+import volcano from "../../public/volcano.png";
 
 export const handleRenderImage = (type: TItem) => {
     switch (type) {
@@ -24,6 +25,32 @@ export const handleRenderImage = (type: TItem) => {
             return air;
         case "brick":
             return brick;
+        case "garden":
+            return garden;
+        case "dust":
+            return dust;
+        case "earth":
+            return earth;
+        case "energy":
+            return energy;
+        case "water":
+            return water;
+        case "lava":
+            return lava;
+        case "mud":
+            return mud;
+        case "plant":
+            return plant;
+        case "pressure":
+            return pressure;
+        case "rain":
+            return rain;
+        case "sea":
+            return sea;
+        case "steam":
+            return steam;
+        case "volcano":
+            return volcano;
         default:
             return clear;
     }
