@@ -1,0 +1,61 @@
+.modal-control {
+    width: 500px;
+    height: 80%;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+
+    .header{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .list-control{
+            display: flex;
+            list-style-type: none;
+            li{
+                border: none;
+                padding: 10px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                &:hover{
+                    cursor: pointer;
+                }
+
+                .icon{
+                    width: 30px;
+                    height: 30px;
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    background-size: contain;
+                    margin-right: 5px;
+                }
+
+                .icon-home{
+                    background-image: url("../../../public/home.svg");
+                }
+
+                .icon-setting{
+                    background-image: url("../../../public/setting.svg");
+                }
+
+                .icon-Achievement{
+                    background-image: url("../../../public/star.svg");
+                }
+            }
+
+           
+        }
+
+        .icon-close{
+            width: 30px;
+            height: 30px;
+            background-image: url("../../../public/close.png");
+            background-repeat: no-repeat;
+            background-position: center;
+
+        }
+    }
+}
