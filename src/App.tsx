@@ -9,6 +9,7 @@ import { handleSwapOption } from "./helpers/handleSwapOption";
 import { useState } from "react";
 import ModalSetting from "./components/ModalSetting/ModalSetting";
 import { RootState } from "./store/store";
+import fire from "../public/fire.png";
 
 function App() {
     const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -74,6 +75,11 @@ function App() {
             className="app"
             style={{ background: `${isDark ? "#171319" : ""}` }}
         >
+            <img
+                src={fire}
+                alt=""
+                style={{ width: "100px", height: "100px" }}
+            />
             <div className={`${isOpen ? "modal" : "none"}`}>
                 <ModalSetting handleCloseModal={handleCloseModal} />
             </div>
