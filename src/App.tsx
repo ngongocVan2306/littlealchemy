@@ -231,14 +231,7 @@ function App() {
                         })}
                 </div>
 
-                <div
-                    className="list-button"
-                    style={{
-                        position: "fixed",
-                        right: "17%",
-                        bottom: "20px",
-                    }}
-                >
+                <div className="list-button">
                     <div
                         className="btn btn-level2"
                         onClick={() => {
