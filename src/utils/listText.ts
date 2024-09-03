@@ -1,28 +1,10 @@
-export const listText: string[] = [
-    "A",
-    "B",
-    "C",
-    "D",
-    "E",
-    "F",
-    "G",
-    "H",
-    "I",
-    "J",
-    "K",
-    "L",
-    "M",
-    "N",
-    "O",
-    "P",
-    "Q",
-    "R",
-    "S",
-    "T",
-    "U",
-    "V",
-    "W",
-    "X",
-    "Y",
-    "Z",
-];
+const handleGetText = (): string[] => {
+    const arrText: string[] = [];
+    for (let i = 65; i <= 90; i++) {
+        arrText.push(String.fromCharCode(i));
+    }
+
+    return arrText;
+};
+
+export const listText: string[] = handleGetText();

@@ -16,39 +16,26 @@ import sea from "../../public/sea.png";
 import steam from "../../public/steam.png";
 import volcano from "../../public/volcano.png";
 
-export const handleRenderImage = (type: TItem) => {
-    switch (type) {
-        case "fire":
-            return fire;
-        case "air":
-            return air;
-        case "brick":
-            return brick;
-        case "garden":
-            return garden;
-        case "dust":
-            return dust;
-        case "earth":
-            return earth;
-        case "energy":
-            return energy;
-        case "water":
-            return water;
-        case "lava":
-            return lava;
-        case "mud":
-            return mud;
-        case "plant":
-            return plant;
-        case "pressure":
-            return pressure;
-        case "rain":
-            return rain;
-        case "sea":
-            return sea;
-        case "steam":
-            return steam;
-        default:
-            return volcano;
-    }
+type ValidTItem = Exclude<TItem, "">;
+
+const imageMap: Record<ValidTItem, string> = {
+    fire,
+    air,
+    brick,
+    garden,
+    dust,
+    earth,
+    energy,
+    water,
+    lava,
+    mud,
+    plant,
+    pressure,
+    rain,
+    sea,
+    steam,
+    volcano,
 };
+
+export const handleRenderImage = (type: TItem) =>
+    imageMap[type as ValidTItem] || volcano;

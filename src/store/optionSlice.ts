@@ -10,7 +10,7 @@ interface stateSlice {
     result: number;
 }
 const initState: stateSlice = {
-    optionSlice: optionDefault(),
+    optionSlice: optionDefault,
     itemSlice: [],
     result: 4,
 };
@@ -50,7 +50,6 @@ export const optionSlice = createSlice({
                     Math.abs(item.y - action.payload.y) <= 40
                 ) {
                     check = handleCombine(item, action.payload);
-                    console.log(check);
                     if (check !== "") {
                         isChange = true;
                         typeNew = check;
@@ -123,7 +122,7 @@ export const optionSlice = createSlice({
 
         clearItem(state) {
             state.result = 4;
-            state.optionSlice = optionDefault();
+            state.optionSlice = optionDefault;
             state.itemSlice = [];
         },
 

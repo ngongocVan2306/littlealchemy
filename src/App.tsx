@@ -1,5 +1,4 @@
 import "./App.css";
-// import ListText from "./components/ListText/ListText";
 import { useAppDispatch, useAppSelector } from "./hooks/hooks";
 import Draggable from "react-draggable";
 import { IItem } from "./utils/interface";
