@@ -9,6 +9,23 @@
     height: 100vh;
     position: relative;
 
+    .div-scroll{
+        height: 100%;
+        overflow: auto;
+        border-right: 1px solid #fff;
+
+
+        position: absolute;
+        z-index:  1000;
+        /* display: fixed; */
+        top: 0;
+        right: 15%;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+
     .layout{
         height: 100%;
         width: 100%;
@@ -48,19 +65,27 @@
             height: 100%;
             /* background-image: url("../public/sibar.png"); */
             display: flex;
+            flex-direction: column;
             justify-content: start;
             align-items: start;
     
-            .list-char{
-                width: 10%;
-                height: 100%;
-                overflow: auto;
-                border-right: 1px solid #fff;
-    
-    
-                &::-webkit-scrollbar {
-                    display: none;
-                }
+           
+
+            .item{
+                width: 100%;
+                margin: 20px 0;
+                display: flex;
+                justify-content: start;
+                align-items: center;
+
+               img{
+                margin-right: 10px;
+               
+               }
+
+               p{
+                opacity: 0.4;
+               }
             }
     
             .list-option{
@@ -73,7 +98,7 @@
                     display: none;
                 }
               
-                .item{
+                /* .item{
                     width: 100%;
                     margin: 20px 0;
                     display: flex;
@@ -89,7 +114,7 @@
                    p{
                     opacity: 0.4;
                    }
-                }
+                } */
             }
         }
     

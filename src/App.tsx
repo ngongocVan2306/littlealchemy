@@ -1,10 +1,15 @@
 import "./App.css";
-import ListText from "./components/ListText/ListText";
+// import ListText from "./components/ListText/ListText";
 import { useAppDispatch, useAppSelector } from "./hooks/hooks";
 import Draggable from "react-draggable";
 import { IItem } from "./utils/interface";
 import { v4 as uuidv4 } from "uuid";
-import { addItem, clearItem, dragItem } from "./store/optionSlice";
+import {
+    addItem,
+    clearItem,
+    dragItem,
+    reloadOption,
+} from "./store/optionSlice";
 import { handleSwapOption } from "./helpers/handleSwapOption";
 import { useState } from "react";
 import ModalSetting from "./components/ModalSetting/ModalSetting";
@@ -20,6 +25,7 @@ import levelTow from "../public/level2.png";
 import leveTwoNight from "../public/level2_night.png";
 import clear from "../public/clear.png";
 import clearNight from "../public/clear_night.png";
+import ListText from "./components/ListText/ListText";
 
 function App() {
     const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -36,35 +42,47 @@ function App() {
         (state: RootState) => state.themeSlice.isDark
     );
 
-    console.log(listItem);
-
     const dispatch = useAppDispatch();
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const handleStop = (data: any, item: Partial<IItem>): void => {
+    const handleStop = (data: any, item: IItem, index: number): void => {
         const dataBuider: IItem = {
             img: item.img ? item.img : "",
             name: item.name ? item.name : "",
-            uuid: item.uuid ? item.uuid : "",
-            x: data.lastX,
-            y: data.lastY,
+            uuid: item.isOption ? uuidv4() : item.uuid,
+            isOption: item.isOption,
+            x: item.isOption
+                ? window.innerWidth -
+                  (window.innerWidth * 0.15 + Math.abs(data.lastX))
+                : data.lastX,
+
+            y: !item.isOption
+                ? data.lastY
+                : data.lastY + (index * 4.5 + 1) * 20,
         };
+
+        if (item.isOption) {
+            dataBuider.isOption = false;
+            dispatch(addItem(dataBuider));
+            dispatch(reloadOption(item));
+        }
 
         dispatch(dragItem(dataBuider));
     };
 
-    const handleCreateItem = (data: Partial<IItem>): void => {
-        const uuid = uuidv4();
-        dispatch(
-            addItem({
-                img: data.img ? data.img : "",
-                name: data.name ? data.name : "",
-                uuid: uuid,
-                x: 0,
-                y: 0,
-            })
-        );
-    };
+    // const handleCreateItem = (data: IItem): void => {
+    //     const uuid = uuidv4();
+    //     dispatch(
+    //         addItem({
+    //             img: data.img,
+    //             name: data.name,
+    //             uuid: uuid,
+    //             x: data.x,
+    //             y: data.y,
+    //             isOption: false,
+    //         })
+    //     );
+    // };
 
     const handleClear = (): void => {
         dispatch(clearItem());
@@ -87,9 +105,19 @@ function App() {
             className="app"
             style={{ background: `${isDark ? "#171319" : ""}` }}
         >
+            <div
+                className="div-scroll"
+                style={{
+                    backgroundImage: `${isDark ? "" : `url(${sibar})`}`,
+                }}
+            >
+                <ListText />
+            </div>
+
             <div className={`${isOpen ? "modal" : "none"}`}>
                 <ModalSetting handleCloseModal={handleCloseModal} />
             </div>
+
             <div className="layout">
                 <div
                     className="col-left"
@@ -112,12 +140,12 @@ function App() {
 
                     {listItem &&
                         listItem.length > 0 &&
-                        listItem.map((item) => {
+                        listItem.map((item, index) => {
                             return (
                                 <Draggable
                                     key={item.uuid}
                                     onStop={(_e, data) =>
-                                        handleStop(data, item)
+                                        handleStop(data, item, index)
                                     }
                                     position={{ x: item.x, y: item.y }}
                                 >
@@ -130,12 +158,14 @@ function App() {
                                             position: "absolute",
                                             cursor: "pointer",
                                         }}
+                                        // onClick={() => handleCreateItem(item)}
                                     >
                                         <img
                                             className="item"
                                             src={handleRenderImage(item.name)}
                                             alt="item"
                                             title={item.name}
+                                            style={{ width: "50px" }}
                                         />
 
                                         <p
@@ -159,26 +189,33 @@ function App() {
                     className="col-right"
                     style={{
                         backgroundImage: `${isDark ? "" : `url(${sibar})`}`,
+                        overflow: "auto",
+                        paddingLeft: "20px",
                     }}
                 >
-                    <div className="list-char">
-                        <ListText />
-                    </div>
-
-                    <div className="list-option">
-                        {listOption &&
-                            listOption.length > 0 &&
-                            listOption.map((item) => {
-                                return (
+                    {listOption &&
+                        listOption.length > 0 &&
+                        listOption.map((item, index) => {
+                            return (
+                                <Draggable
+                                    key={item.uuid}
+                                    onStop={(_e, data) =>
+                                        handleStop(data, item, index)
+                                    }
+                                >
                                     <div
                                         key={item.uuid}
                                         className={`item ${item.name}`}
-                                        style={{ zIndex: "100" }}
-                                        onClick={() => handleCreateItem(item)}
+                                        style={{
+                                            zIndex: "100",
+                                            width: "100%",
+                                            height: "50px",
+                                        }}
                                     >
                                         <img
                                             src={handleRenderImage(item.name)}
                                             alt="item"
+                                            style={{ width: "50px" }}
                                         />
                                         <p
                                             style={{
@@ -190,9 +227,9 @@ function App() {
                                             {item.name}
                                         </p>
                                     </div>
-                                );
-                            })}
-                    </div>
+                                </Draggable>
+                            );
+                        })}
                 </div>
 
                 <div

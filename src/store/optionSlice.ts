@@ -61,10 +61,6 @@ export const optionSlice = createSlice({
                 }
             });
 
-            console.log(xItemOld);
-            console.log(yItemOld);
-            console.log("action>>>", action.payload);
-
             // nếu đổi được
 
             if (isChange && uuidChange) {
@@ -82,6 +78,7 @@ export const optionSlice = createSlice({
                         img: `public/${typeNew}.png`,
                         name: typeNew,
                         uuid: uuidv4(),
+                        isOption: false,
                         x: (action.payload.x + xItemOld) / 2,
                         y: (action.payload.y + yItemOld) / 2,
                     },
@@ -107,6 +104,7 @@ export const optionSlice = createSlice({
                         x: 0,
                         y: 0,
                         uuid: uuidv4(),
+                        isOption: true,
                     });
                 }
 
@@ -128,9 +126,27 @@ export const optionSlice = createSlice({
             state.optionSlice = optionDefault();
             state.itemSlice = [];
         },
+
+        reloadOption(state, action: PayloadAction<IItem>) {
+            state.optionSlice = [
+                ...state.optionSlice.filter(
+                    (item) => item.uuid !== action.payload.uuid
+                ),
+            ];
+
+            state.optionSlice.push({
+                img: `public/${action.payload.name}.png`,
+                name: action.payload.name,
+                x: 0,
+                y: 0,
+                uuid: uuidv4(),
+                isOption: true,
+            });
+        },
     },
 });
 
-export const { addItem, dragItem, clearItem } = optionSlice.actions;
+export const { addItem, dragItem, clearItem, reloadOption } =
+    optionSlice.actions;
 
 export default optionSlice.reducer;

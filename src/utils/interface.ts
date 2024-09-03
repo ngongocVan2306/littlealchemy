@@ -4,6 +4,7 @@ export interface IItem {
     name: TItem;
     x: number;
     y: number;
+    isOption: boolean;
 }
 
 export type TItem =
