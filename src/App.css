@@ -14,7 +14,6 @@
         overflow: auto;
         border-right: 1px solid #fff;
 
-
         position: absolute;
         z-index:  99;
         top: 0;
@@ -31,7 +30,6 @@
         display: flex;
         justify-content: center;
         align-items: center;
-    
     
         .btn-fullScreen{
             background-repeat: no-repeat;
@@ -78,8 +76,6 @@
             align-items: start;
             overflow: auto;
             padding-left: 20px;
-    
-           
 
             .item {
                 width: 100%;
@@ -133,8 +129,6 @@
                     opacity: 0.7;
                 }
             }
-    
-           
         }
     }
     
@@ -153,4 +147,14 @@
 
 .none{
     display: none;
+}
+
+@media screen  and (max-width:560px){
+    .col-left{
+        width: 60px;
+    }
+
+    .col-right{
+        width: 40px;
+    }
 }
