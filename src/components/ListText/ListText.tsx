@@ -35,9 +35,9 @@ export default function ListText() {
                 alignItems: "center",
             }}
         >
-            {listText &&
-                listText.length > 0 &&
-                listText.map((item, index) => {
+            {listText() &&
+                listText().length > 0 &&
+                listText().map((item, index) => {
                     return (
                         <div
                             className="item"

@@ -84,6 +84,7 @@ function App() {
 
     const handleClear = (): void => {
         dispatch(clearItem());
+        setIsChange(!isChange);
     };
 
     const handleCloseModal = (): void => {

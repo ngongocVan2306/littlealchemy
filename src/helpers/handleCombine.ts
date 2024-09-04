@@ -18,7 +18,6 @@ const combinations: [string, string, TItem][] = [
 
 export const handleCombine = (itemState: IItem, action: IItem): TItem => {
     for (const item of combinations) {
-        console.log("Run");
         if (
             (itemState.name === item[0] && action.name === item[1]) ||
             (itemState.name === item[1] && action.name === item[0])
