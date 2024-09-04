@@ -24,7 +24,7 @@ export const optionSlice = createSlice({
         },
 
         dragItem(state, action: PayloadAction<IItem>) {
-            if (action.payload.x >= Math.abs(window.innerWidth) * 0.8) {
+            if (action.payload.x >= state.optionSlice[0].x - 100) {
                 const listItemNew = state.itemSlice.filter(
                     (item) => item.uuid !== action.payload.uuid
                 );

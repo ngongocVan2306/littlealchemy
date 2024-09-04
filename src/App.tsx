@@ -54,6 +54,8 @@ function App() {
             y: item.isOption ? data.lastY + item.y : data.lastY,
         };
 
+        console.log(dataBuider);
+
         if (item.isOption) {
             dispatch(addItem(dataBuider));
             dispatch(reloadOption(item));

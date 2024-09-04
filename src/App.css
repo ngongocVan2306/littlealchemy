@@ -11,9 +11,9 @@
 
     .div-scroll{
         height: 100%;
+        width: var(--width-text-scroll);
         overflow: auto;
         border-right: 1px solid #fff;
-
         position: absolute;
         z-index:  99;
         top: 0;
@@ -152,7 +152,7 @@
 @media screen  and (max-width:560px){
 
     .div-scroll{
-        right: 40%;
+        right: 40% !important;
     }
 
     .col-left{
@@ -164,6 +164,6 @@
     }
 
     .list-button{
-        right: 45%;
+        right: 45% !;
     }
 }
