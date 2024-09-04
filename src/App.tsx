@@ -217,16 +217,10 @@ function App() {
                                         key={item.uuid}
                                         id={`${item.name}`}
                                         className={`item ${item.name}`}
-                                        style={{
-                                            zIndex: "100",
-                                            width: "100%",
-                                            height: "50px",
-                                        }}
                                     >
                                         <img
                                             src={handleRenderImage(item.name)}
                                             alt="item"
-                                            style={{ width: "50px" }}
                                         />
                                         <p
                                             style={{
@@ -235,7 +229,6 @@ function App() {
                                                         ? "var(--color-text-dark)"
                                                         : ""
                                                 }`,
-                                                margin: "0px",
                                             }}
                                         >
                                             {item.name}
