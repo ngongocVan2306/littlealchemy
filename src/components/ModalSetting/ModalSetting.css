@@ -48,3 +48,9 @@
         }
     }
 }
+
+@media screen and (max-width:560px) {
+    .modal-control{
+        width: 95%;
+    }
+}

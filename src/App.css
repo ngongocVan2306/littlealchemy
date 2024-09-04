@@ -151,12 +151,19 @@
 
 @media screen  and (max-width:560px){
 
+    .div-scroll{
+        right: 40%;
+    }
+
     .col-left{
         width: 60% !important;
     }
 
     .col-right{
         width: 40% !important;
+    }
 
+    .list-button{
+        right: 45%;
     }
 }
