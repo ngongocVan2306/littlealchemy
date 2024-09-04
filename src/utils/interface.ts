@@ -1,6 +1,5 @@
 export interface IItem {
     uuid: string;
-    img: string;
     name: TItem;
     x: number;
     y: number;

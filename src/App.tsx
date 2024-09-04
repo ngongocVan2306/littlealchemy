@@ -46,7 +46,6 @@ function App() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleStop = (data: any, item: IItem): void => {
         const dataBuider: IItem = {
-            img: item.img,
             name: item.name,
             uuid: item.isOption ? uuidv4() : item.uuid,
             isOption: item.isOption ? false : true,

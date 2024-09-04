@@ -24,7 +24,7 @@ export const optionSlice = createSlice({
         },
 
         dragItem(state, action: PayloadAction<IItem>) {
-            if (action.payload.x >= state.optionSlice[0].x - 100) {
+            if (action.payload.x >= state.optionSlice[0].x - 80) {
                 const listItemNew = state.itemSlice.filter(
                     (item) => item.uuid !== action.payload.uuid
                 );
@@ -74,7 +74,6 @@ export const optionSlice = createSlice({
                 state.itemSlice = [
                     ...filteredItems,
                     {
-                        img: `public/${typeNew}.png`,
                         name: typeNew,
                         uuid: uuidv4(),
                         isOption: false,
@@ -98,7 +97,6 @@ export const optionSlice = createSlice({
                 });
                 if (!checkIsVald) {
                     state.optionSlice.push({
-                        img: `public/${typeNew}.png`,
                         name: typeNew,
                         x: 0,
                         y: 0,
@@ -134,7 +132,6 @@ export const optionSlice = createSlice({
             ];
 
             state.optionSlice.push({
-                img: `public/${action.payload.name}.png`,
                 name: action.payload.name,
                 // x: 0,
                 // y: 0,
