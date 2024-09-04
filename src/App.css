@@ -54,6 +54,19 @@
                 font-size: 60px;
                 color: var(--color-active);
             }
+
+            .list-item {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                position: absolute;
+                cursor: pointer;
+
+                img{
+                    width: 50px;
+                }
+            }
         }
     
         .col-right{
@@ -63,6 +76,8 @@
             flex-direction: column;
             justify-content: start;
             align-items: start;
+            overflow: auto;
+            padding-left: 20px;
     
            
 

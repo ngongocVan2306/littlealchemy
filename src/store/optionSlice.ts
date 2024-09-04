@@ -8,11 +8,13 @@ interface stateSlice {
     optionSlice: IItem[];
     itemSlice: IItem[];
     result: number;
+    isChange: boolean;
 }
 const initState: stateSlice = {
     optionSlice: optionDefault,
     itemSlice: [],
     result: 4,
+    isChange: false,
 };
 
 export const optionSlice = createSlice({
@@ -136,16 +138,28 @@ export const optionSlice = createSlice({
             state.optionSlice.push({
                 img: `public/${action.payload.name}.png`,
                 name: action.payload.name,
-                x: 0,
-                y: 0,
+                // x: 0,
+                // y: 0,
+                x: action.payload.x,
+                y: action.payload.y,
                 uuid: uuidv4(),
                 isOption: true,
             });
         },
+
+        updatePositionOption(state, action: PayloadAction<IItem[]>) {
+            state.optionSlice = [...action.payload];
+            state.isChange = !state.isChange;
+        },
     },
 });
 
-export const { addItem, dragItem, clearItem, reloadOption } =
-    optionSlice.actions;
+export const {
+    addItem,
+    dragItem,
+    clearItem,
+    reloadOption,
+    updatePositionOption,
+} = optionSlice.actions;
 
 export default optionSlice.reducer;

@@ -8,9 +8,10 @@ import {
     clearItem,
     dragItem,
     reloadOption,
+    updatePositionOption,
 } from "./store/optionSlice";
 import { handleSwapOption } from "./helpers/handleSwapOption";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ModalSetting from "./components/ModalSetting/ModalSetting";
 import { RootState } from "./store/store";
 import background from "../public/background.png";
@@ -28,6 +29,7 @@ import ListText from "./components/ListText/ListText";
 
 function App() {
     const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [isChange, setIsChange] = useState<boolean>(false);
 
     const result: number = useAppSelector(
         (state: RootState) => state.optionSlice.result
@@ -45,23 +47,20 @@ function App() {
     const dispatch = useAppDispatch();
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const handleStop = (data: any, item: IItem, index: number): void => {
+    const handleStop = (data: any, item: IItem): void => {
         const dataBuider: IItem = {
             img: item.img,
             name: item.name,
             uuid: item.isOption ? uuidv4() : item.uuid,
             isOption: item.isOption ? false : true,
-            x: item.isOption
-                ? window.innerWidth -
-                  (window.innerWidth * 0.15 + Math.abs(data.lastX))
-                : data.lastX,
-
-            y: item.isOption ? data.lastY + (index * 4.5 + 1) * 20 : data.lastY,
+            x: item.isOption ? data.lastX + item.x : data.lastX,
+            y: item.isOption ? data.lastY + item.y : data.lastY,
         };
 
         if (item.isOption) {
             dispatch(addItem(dataBuider));
             dispatch(reloadOption(item));
+            setIsChange(!isChange);
         }
 
         dispatch(dragItem(dataBuider));
@@ -96,6 +95,31 @@ function App() {
     const handleCloseModal = (): void => {
         setIsOpen(false);
     };
+
+    // document.getElementById(`${item.name}`)?.getBoundingClientRect().x ??0,
+
+    useEffect(() => {
+        const arrOptionNew: IItem[] = [];
+
+        listOption.map((item: IItem) => {
+            const dataBuider: IItem = {
+                ...item,
+                x:
+                    document
+                        .getElementById(`${item.name}`)
+                        ?.getBoundingClientRect().x ?? 0,
+                y:
+                    document
+                        .getElementById(`${item.name}`)
+                        ?.getBoundingClientRect().y ?? 0,
+            };
+
+            arrOptionNew.push(dataBuider);
+        });
+
+        dispatch(updatePositionOption(arrOptionNew));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isChange]);
 
     return (
         <div
@@ -137,24 +161,17 @@ function App() {
 
                     {listItem &&
                         listItem.length > 0 &&
-                        listItem.map((item, index) => {
+                        listItem.map((item) => {
                             return (
                                 <Draggable
                                     key={item.uuid}
                                     onStop={(_e, data) =>
-                                        handleStop(data, item, index)
+                                        handleStop(data, item)
                                     }
                                     position={{ x: item.x, y: item.y }}
                                 >
                                     <div
-                                        style={{
-                                            display: "flex",
-                                            flexDirection: "column",
-                                            justifyContent: "center",
-                                            alignItems: "center",
-                                            position: "absolute",
-                                            cursor: "pointer",
-                                        }}
+                                        className="list-item"
                                         // onClick={() => handleCreateItem(item)}
                                     >
                                         <img
@@ -162,7 +179,6 @@ function App() {
                                             src={handleRenderImage(item.name)}
                                             alt="item"
                                             title={item.name}
-                                            style={{ width: "50px" }}
                                         />
 
                                         <p
@@ -188,22 +204,22 @@ function App() {
                     className="col-right"
                     style={{
                         backgroundImage: `${isDark ? "" : `url(${sibar})`}`,
-                        overflow: "auto",
-                        paddingLeft: "20px",
                     }}
+                    onScroll={() => setIsChange(!isChange)}
                 >
                     {listOption &&
                         listOption.length > 0 &&
-                        listOption.map((item, index) => {
+                        listOption.map((item) => {
                             return (
                                 <Draggable
                                     key={item.uuid}
                                     onStop={(_e, data) =>
-                                        handleStop(data, item, index)
+                                        handleStop(data, item)
                                     }
                                 >
                                     <div
                                         key={item.uuid}
+                                        id={`${item.name}`}
                                         className={`item ${item.name}`}
                                         style={{
                                             zIndex: "100",
@@ -214,7 +230,7 @@ function App() {
                                         <img
                                             src={handleRenderImage(item.name)}
                                             alt="item"
-                                            style={{ width: "40px" }}
+                                            style={{ width: "50px" }}
                                         />
                                         <p
                                             style={{
