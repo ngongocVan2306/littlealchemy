@@ -26,8 +26,12 @@ const ModalSetting = memo(function ModalSetting({
         <div
             className="modal-control"
             style={{
-                background: `${isDark ? "#171319" : "#f7f1e7"}`,
-                color: `${isDark ? "#9779A6" : ""}`,
+                background: `${
+                    isDark
+                        ? "var(--background-dark)"
+                        : "var(--background-modal-light)"
+                }`,
+                color: `${isDark ? "var(--color-text-dark)" : ""}`,
             }}
         >
             <div className="header">
@@ -35,7 +39,9 @@ const ModalSetting = memo(function ModalSetting({
                     <li
                         style={{
                             borderBottom: `${
-                                status === "home" ? "4px solid #e8ded0" : ""
+                                status === "home"
+                                    ? "4px solid var(--color-active)"
+                                    : ""
                             }`,
                         }}
                         onClick={() => setStatus("home")}
@@ -50,7 +56,9 @@ const ModalSetting = memo(function ModalSetting({
                     <li
                         style={{
                             borderBottom: `${
-                                status === "setting" ? "4px solid #e8ded0" : ""
+                                status === "setting"
+                                    ? "4px solid var(--color-active)"
+                                    : ""
                             }`,
                         }}
                         onClick={() => setStatus("setting")}
@@ -66,7 +74,7 @@ const ModalSetting = memo(function ModalSetting({
                         style={{
                             borderBottom: `${
                                 status === "achievement"
-                                    ? "4px solid #e8ded0"
+                                    ? "4px solid var(--color-active)"
                                     : ""
                             }`,
                         }}

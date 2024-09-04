@@ -52,7 +52,7 @@
                 bottom: 10px;
                 left: 10px;
                 font-size: 60px;
-                color: #e8ded0;
+                color: var(--color-active);
             }
         }
     

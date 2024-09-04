@@ -28,17 +28,18 @@ import ListText from "./components/ListText/ListText";
 
 function App() {
     const [isOpen, setIsOpen] = useState<boolean>(false);
-    const listOption = handleSwapOption(
-        useAppSelector((state: RootState) => state.optionSlice.optionSlice)
-    );
-    const result = useAppSelector(
+
+    const result: number = useAppSelector(
         (state: RootState) => state.optionSlice.result
     );
-    const listItem = useAppSelector(
+    const listItem: IItem[] = useAppSelector(
         (state: RootState) => state.optionSlice.itemSlice
     );
-    const isDark = useAppSelector(
+    const isDark: boolean = useAppSelector(
         (state: RootState) => state.themeSlice.isDark
+    );
+    const listOption: IItem[] = handleSwapOption(
+        useAppSelector((state: RootState) => state.optionSlice.optionSlice)
     );
 
     const dispatch = useAppDispatch();
@@ -46,22 +47,19 @@ function App() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleStop = (data: any, item: IItem, index: number): void => {
         const dataBuider: IItem = {
-            img: item.img ? item.img : "",
-            name: item.name ? item.name : "",
+            img: item.img,
+            name: item.name,
             uuid: item.isOption ? uuidv4() : item.uuid,
-            isOption: item.isOption,
+            isOption: item.isOption ? false : true,
             x: item.isOption
                 ? window.innerWidth -
                   (window.innerWidth * 0.15 + Math.abs(data.lastX))
                 : data.lastX,
 
-            y: !item.isOption
-                ? data.lastY
-                : data.lastY + (index * 4.5 + 1) * 20,
+            y: item.isOption ? data.lastY + (index * 4.5 + 1) * 20 : data.lastY,
         };
 
         if (item.isOption) {
-            dataBuider.isOption = false;
             dispatch(addItem(dataBuider));
             dispatch(reloadOption(item));
         }
@@ -102,7 +100,7 @@ function App() {
     return (
         <div
             className="app"
-            style={{ background: `${isDark ? "#171319" : ""}` }}
+            style={{ background: `${isDark ? "var(--background-dark)" : ""}` }}
         >
             <div
                 className="div-scroll"
@@ -170,7 +168,9 @@ function App() {
                                         <p
                                             style={{
                                                 color: `${
-                                                    isDark ? "#9779A6" : ""
+                                                    isDark
+                                                        ? "var(--color-text-dark)"
+                                                        : undefined
                                                 }`,
                                             }}
                                         >
@@ -214,13 +214,16 @@ function App() {
                                         <img
                                             src={handleRenderImage(item.name)}
                                             alt="item"
-                                            style={{ width: "50px" }}
+                                            style={{ width: "40px" }}
                                         />
                                         <p
                                             style={{
                                                 color: `${
-                                                    isDark ? "#9779A6" : ""
+                                                    isDark
+                                                        ? "var(--color-text-dark)"
+                                                        : ""
                                                 }`,
+                                                margin: "0px",
                                             }}
                                         >
                                             {item.name}

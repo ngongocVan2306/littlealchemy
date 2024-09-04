@@ -45,7 +45,9 @@ export default function ListText() {
                             style={{
                                 padding: "10px",
                                 opacity: "0.4",
-                                color: `${isDark ? "#9779A6" : ""}`,
+                                color: `${
+                                    isDark ? "var(--color-text-dark)" : ""
+                                }`,
                             }}
                             onClick={() => handleScroll(item)}
                         >

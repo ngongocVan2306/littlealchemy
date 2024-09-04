@@ -8,7 +8,10 @@ export default function FormHome() {
     return (
         <div
             className=""
-            style={{ padding: "10px", color: `${isDark ? "#9779A6" : ""}` }}
+            style={{
+                padding: "10px",
+                color: `${isDark ? "var(--color-text-dark)" : ""}`,
+            }}
         >
             <h3 style={{ margin: "10px 0" }}>Newsletter</h3>
             <a

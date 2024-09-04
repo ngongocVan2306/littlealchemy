@@ -29,7 +29,7 @@ export default function FormSetting() {
                         width: "35px",
                         height: "35px",
                         marginRight: "10px",
-                        background: `${isDark ? "#9779A6" : ""}`,
+                        background: `${isDark ? "var(--color-text-dark)" : ""}`,
                     }}
                     value={`${isDark}`}
                     onChange={() => handleChangeTheme()}
