@@ -6,7 +6,7 @@ import FormSetting from "./FormSetting/FormSetting";
 import FormAchievement from "./FormAchievement/FormAchievement";
 import { useAppSelector } from "../../hooks/hooks";
 import { RootState } from "../../store/store";
-import iconHome from "../../../public/home.svg";
+// import iconHome from "../../../public/home.svg";
 import iconStar from "../../../public/star.svg";
 import iconSetting from "../../../public/setting.svg";
 import iconClose from "../../../public/close.png";
@@ -48,7 +48,9 @@ const ModalSetting = memo(function ModalSetting({
                     >
                         <div
                             className="icon icon-home"
-                            style={{ backgroundImage: `url(${iconHome})` }}
+                            style={{
+                                backgroundImage: `url("../../../public/home.svg)`,
+                            }}
                         ></div>
                         Home
                     </li>
