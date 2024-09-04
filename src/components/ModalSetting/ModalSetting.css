@@ -49,14 +49,15 @@
     .header{
         .list-control{
             li{
-                padding: 5px;
+                padding: 5px !important;
+                
                 .icon{
-                    width: 20px;
+                    width: 20px !important;
                 }
             }
         }
     }
     .modal-control{
-        width: 95%;
+        width: 95% !important;
     }
 }
