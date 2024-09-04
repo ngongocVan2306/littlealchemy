@@ -13,6 +13,7 @@
         .list-control{
             display: flex;
             list-style-type: none;
+
             li{
                 border: none;
                 padding: 10px;
@@ -32,11 +33,7 @@
                     background-size: contain;
                     margin-right: 5px;
                 }
-
-              
             }
-
-           
         }
 
         .icon-close{
@@ -44,12 +41,21 @@
             height: 30px;
             background-repeat: no-repeat;
             background-position: center;
-
         }
     }
 }
 
 @media screen and (max-width:560px) {
+    .header{
+        .list-control{
+            li{
+                padding: 5px;
+                .icon{
+                    width: 20px;
+                }
+            }
+        }
+    }
     .modal-control{
         width: 95%;
     }

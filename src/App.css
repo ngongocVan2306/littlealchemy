@@ -84,7 +84,7 @@
                 display: flex;
                 justify-content: start;
                 align-items: center;
-                z-index: 100;
+                z-index: 99;
 
                img {
                 margin-right: 10px;

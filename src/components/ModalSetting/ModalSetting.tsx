@@ -87,6 +87,7 @@ const ModalSetting = memo(function ModalSetting({
                         Achievements
                     </li>
                 </ul>
+
                 <div
                     className="icon-close"
                     onClick={() => handleCloseModal()}
