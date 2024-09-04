@@ -31,17 +31,14 @@ function App() {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [isChange, setIsChange] = useState<boolean>(false);
 
-    const result: number = useAppSelector(
-        (state: RootState) => state.optionSlice.result
-    );
-    const listItem: IItem[] = useAppSelector(
-        (state: RootState) => state.optionSlice.itemSlice
-    );
     const isDark: boolean = useAppSelector(
         (state: RootState) => state.themeSlice.isDark
     );
     const listOption: IItem[] = handleSwapOption(
         useAppSelector((state: RootState) => state.optionSlice.optionSlice)
+    );
+    const { result, itemSlice } = useAppSelector(
+        (state: RootState) => state.optionSlice
     );
 
     const dispatch = useAppDispatch();
@@ -96,8 +93,6 @@ function App() {
         setIsOpen(false);
     };
 
-    // document.getElementById(`${item.name}`)?.getBoundingClientRect().x ??0,
-
     useEffect(() => {
         const arrOptionNew: IItem[] = [];
 
@@ -118,6 +113,7 @@ function App() {
         });
 
         dispatch(updatePositionOption(arrOptionNew));
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isChange]);
 
@@ -159,9 +155,9 @@ function App() {
                         }}
                     ></div>
 
-                    {listItem &&
-                        listItem.length > 0 &&
-                        listItem.map((item) => {
+                    {itemSlice &&
+                        itemSlice.length > 0 &&
+                        itemSlice.map((item) => {
                             return (
                                 <Draggable
                                     key={item.uuid}

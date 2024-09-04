@@ -8,13 +8,11 @@ interface stateSlice {
     optionSlice: IItem[];
     itemSlice: IItem[];
     result: number;
-    isChange: boolean;
 }
 const initState: stateSlice = {
     optionSlice: optionDefault,
     itemSlice: [],
     result: 4,
-    isChange: false,
 };
 
 export const optionSlice = createSlice({
@@ -149,7 +147,6 @@ export const optionSlice = createSlice({
 
         updatePositionOption(state, action: PayloadAction<IItem[]>) {
             state.optionSlice = [...action.payload];
-            state.isChange = !state.isChange;
         },
     },
 });
