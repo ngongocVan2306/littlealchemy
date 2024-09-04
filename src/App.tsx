@@ -1,6 +1,6 @@
 import "./App.css";
 import { useAppDispatch, useAppSelector } from "./hooks/hooks";
-import Draggable from "react-draggable";
+// import Draggable from "react-draggable";
 import { IItem } from "./utils/interface";
 import { v4 as uuidv4 } from "uuid";
 import {
@@ -11,7 +11,7 @@ import {
     updatePositionOption,
 } from "./store/optionSlice";
 import { handleSwapOption } from "./helpers/handleSwapOption";
-import { useEffect, useState } from "react";
+import { DragEvent, useEffect, useState } from "react";
 import ModalSetting from "./components/ModalSetting/ModalSetting";
 import { RootState } from "./store/store";
 import background from "../public/background.png";
@@ -26,6 +26,7 @@ import leveTwoNight from "../public/level2_night.png";
 import clear from "../public/clear.png";
 import clearNight from "../public/clear_night.png";
 import ListText from "./components/ListText/ListText";
+import { saveLastDrag } from "./store/positionSlice";
 
 function App() {
     const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -38,58 +39,9 @@ function App() {
     const isDark: boolean = useAppSelector(
         (state: RootState) => state.themeSlice.isDark
     );
+    const { lastX, lastY } = useAppSelector((state) => state.positionSlice);
 
     const dispatch = useAppDispatch();
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const handleStop = (data: any, item: IItem): void => {
-        const dataBuider: IItem = {
-            name: item.name,
-            uuid: item.isOption ? uuidv4() : item.uuid,
-            isOption: item.isOption ? false : true,
-            x: item.isOption ? data.lastX + item.x : data.lastX,
-            y: item.isOption ? data.lastY + item.y : data.lastY,
-        };
-
-        if (item.isOption) {
-            dispatch(addItem(dataBuider));
-            dispatch(reloadOption(item));
-            setIsChange(!isChange);
-        }
-
-        dispatch(dragItem(dataBuider));
-    };
-
-    // const handleCreateItem = (data: IItem): void => {
-    //     const uuid = uuidv4();
-    //     dispatch(
-    //         addItem({
-    //             img: data.img,
-    //             name: data.name,
-    //             uuid: uuid,
-    //             x: data.x,
-    //             y: data.y,
-    //             isOption: false,
-    //         })
-    //     );
-    // };
-
-    const handleFullScreen = (): void => {
-        if (!document.fullscreenElement) {
-            document.documentElement.requestFullscreen();
-        } else if (document.exitFullscreen) {
-            document.exitFullscreen();
-        }
-    };
-
-    const handleClear = (): void => {
-        dispatch(clearItem());
-        setIsChange(!isChange);
-    };
-
-    const handleCloseModal = (): void => {
-        setIsOpen(false);
-    };
 
     useEffect(() => {
         const arrOptionNew: IItem[] = [];
@@ -112,6 +64,70 @@ function App() {
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isChange]);
+
+    // react-draggable
+
+    // const handleStop = (data: any, item: IItem): void => {
+    //     const dataBuider: IItem = {
+    //         name: item.name,
+    //         uuid: item.isOption ? uuidv4() : item.uuid,
+    //         isOption: item.isOption ? false : true,
+    //         x: item.isOption ? data.lastX + item.x : data.lastX,
+    //         y: item.isOption ? data.lastY + item.y : data.lastY,
+    //     };
+
+    //     if (item.isOption) {
+    //         dispatch(addItem(dataBuider));
+    //         dispatch(reloadOption(item));
+    //         setIsChange(!isChange);
+    //     }
+
+    //     dispatch(dragItem(dataBuider));
+    // };
+
+    const handleFullScreen = (): void => {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen();
+        } else if (document.exitFullscreen) {
+            document.exitFullscreen();
+        }
+    };
+
+    const handleClear = (): void => {
+        dispatch(clearItem());
+        setIsChange(!isChange);
+    };
+
+    const handleCloseModal = (): void => {
+        setIsOpen(false);
+    };
+
+    // build thg
+
+    const handleDrag = (data: DragEvent<HTMLDivElement>, item: IItem) => {
+        console.log("X: " + data.clientX + " | Y: " + data.clientY);
+
+        if (data.clientX !== 0 || data.clientY !== 0) {
+            dispatch(saveLastDrag({ x: data.clientX, y: data.clientY }));
+            return;
+        }
+
+        const dataBuider: IItem = {
+            name: item.name,
+            uuid: item.isOption ? uuidv4() : item.uuid,
+            isOption: false,
+            x: lastX,
+            y: lastY,
+        };
+
+        if (item.isOption) {
+            dispatch(addItem(dataBuider));
+            dispatch(reloadOption(item));
+            setIsChange(!isChange);
+        }
+
+        dispatch(dragItem(dataBuider));
+    };
 
     return (
         <div
@@ -155,37 +171,64 @@ function App() {
                         itemSlice.length > 0 &&
                         itemSlice.map((item) => {
                             return (
-                                <Draggable
+                                <div
                                     key={item.uuid}
-                                    onStop={(_e, data) =>
-                                        handleStop(data, item)
-                                    }
-                                    position={{ x: item.x, y: item.y }}
+                                    id={`${item.uuid}`}
+                                    className="list-item"
+                                    onDrag={(e) => handleDrag(e, item)}
+                                    style={{
+                                        marginLeft: `${item.x}px`,
+                                        marginTop: `${item.y}px`,
+                                    }}
                                 >
-                                    <div
-                                        className="list-item"
-                                        // onClick={() => handleCreateItem(item)}
-                                    >
-                                        <img
-                                            className="item"
-                                            src={handleRenderImage(item.name)}
-                                            alt="item"
-                                            title={item.name}
-                                        />
+                                    <img
+                                        className="item"
+                                        src={handleRenderImage(item.name)}
+                                        alt="item"
+                                        title={item.name}
+                                    />
 
-                                        <p
-                                            style={{
-                                                color: `${
-                                                    isDark
-                                                        ? "var(--color-text-dark)"
-                                                        : undefined
-                                                }`,
-                                            }}
-                                        >
-                                            {item.name}
-                                        </p>
-                                    </div>
-                                </Draggable>
+                                    <p
+                                        style={{
+                                            color: `${
+                                                isDark
+                                                    ? "var(--color-text-dark)"
+                                                    : undefined
+                                            }`,
+                                        }}
+                                    >
+                                        {item.name}
+                                    </p>
+                                </div>
+                                // <Draggable
+                                //     key={item.uuid}
+                                //     onStop={(_e, data) =>
+                                //         handleStop(data, item)
+                                //     }
+                                //     position={{ x: item.x, y: item.y }}
+                                //     // onDrag={(data) => handleTest(data, item)}
+                                // >
+                                //     <div className="list-item">
+                                //         <img
+                                //             className="item"
+                                //             src={handleRenderImage(item.name)}
+                                //             alt="item"
+                                //             title={item.name}
+                                //         />
+
+                                //         <p
+                                //             style={{
+                                //                 color: `${
+                                //                     isDark
+                                //                         ? "var(--color-text-dark)"
+                                //                         : undefined
+                                //                 }`,
+                                //             }}
+                                //         >
+                                //             {item.name}
+                                //         </p>
+                                //     </div>
+                                // </Draggable>
                             );
                         })}
 
@@ -203,34 +246,57 @@ function App() {
                         listOption.length > 0 &&
                         listOption.map((item) => {
                             return (
-                                <Draggable
+                                <div
                                     key={item.uuid}
-                                    onStop={(_e, data) =>
-                                        handleStop(data, item)
-                                    }
+                                    id={`${item.name}`}
+                                    className={`item ${item.name}`}
+                                    onDrag={(e) => handleDrag(e, item)}
                                 >
-                                    <div
-                                        key={item.uuid}
-                                        id={`${item.name}`}
-                                        className={`item ${item.name}`}
+                                    <img
+                                        src={handleRenderImage(item.name)}
+                                        alt="item"
+                                    />
+                                    <p
+                                        style={{
+                                            color: `${
+                                                isDark
+                                                    ? "var(--color-text-dark)"
+                                                    : ""
+                                            }`,
+                                        }}
                                     >
-                                        <img
-                                            src={handleRenderImage(item.name)}
-                                            alt="item"
-                                        />
-                                        <p
-                                            style={{
-                                                color: `${
-                                                    isDark
-                                                        ? "var(--color-text-dark)"
-                                                        : ""
-                                                }`,
-                                            }}
-                                        >
-                                            {item.name}
-                                        </p>
-                                    </div>
-                                </Draggable>
+                                        {item.name}
+                                    </p>
+                                </div>
+                                // <Draggable
+                                //     key={item.uuid}
+                                //     onStop={(_e, data) =>
+                                //         handleStop(data, item)
+                                //     }
+                                //     // onDrag={(data) => handleTest(data, item)}
+                                // >
+                                //     <div
+                                //         key={item.uuid}
+                                //         id={`${item.name}`}
+                                //         className={`item ${item.name}`}
+                                //     >
+                                //         <img
+                                //             src={handleRenderImage(item.name)}
+                                //             alt="item"
+                                //         />
+                                //         <p
+                                //             style={{
+                                //                 color: `${
+                                //                     isDark
+                                //                         ? "var(--color-text-dark)"
+                                //                         : ""
+                                //                 }`,
+                                //             }}
+                                //         >
+                                //             {item.name}
+                                //         </p>
+                                //     </div>
+                                // </Draggable>
                             );
                         })}
                 </div>
