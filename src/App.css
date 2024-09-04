@@ -152,10 +152,11 @@
 @media screen  and (max-width:560px){
 
     .col-left{
-        width: 60%;
+        width: 60% !important;
     }
 
     .col-right{
-        width: 40%;
+        width: 40% !important;
+
     }
 }
