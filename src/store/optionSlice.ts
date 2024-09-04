@@ -82,10 +82,6 @@ export const optionSlice = createSlice({
                     },
                 ];
 
-                // tăng kết qur réult
-
-                state.result += 1;
-
                 // cập nhật thêm option
 
                 let checkIsVald = false;
@@ -103,6 +99,9 @@ export const optionSlice = createSlice({
                         uuid: uuidv4(),
                         isOption: true,
                     });
+
+                    // tăng kết qur réult
+                    state.result += 1;
                 }
 
                 return;

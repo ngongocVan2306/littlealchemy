@@ -31,14 +31,12 @@ function App() {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [isChange, setIsChange] = useState<boolean>(false);
 
+    const { result, itemSlice, optionSlice } = useAppSelector(
+        (state: RootState) => state.optionSlice
+    );
+    const listOption: IItem[] = handleSwapOption(optionSlice);
     const isDark: boolean = useAppSelector(
         (state: RootState) => state.themeSlice.isDark
-    );
-    const listOption: IItem[] = handleSwapOption(
-        useAppSelector((state: RootState) => state.optionSlice.optionSlice)
-    );
-    const { result, itemSlice } = useAppSelector(
-        (state: RootState) => state.optionSlice
     );
 
     const dispatch = useAppDispatch();
@@ -52,8 +50,6 @@ function App() {
             x: item.isOption ? data.lastX + item.x : data.lastX,
             y: item.isOption ? data.lastY + item.y : data.lastY,
         };
-
-        console.log(dataBuider);
 
         if (item.isOption) {
             dispatch(addItem(dataBuider));
@@ -98,16 +94,14 @@ function App() {
         const arrOptionNew: IItem[] = [];
 
         listOption.map((item: IItem) => {
+            const positionOption = document
+                ?.getElementById(`${item.name}`)
+                ?.getBoundingClientRect();
+
             const dataBuider: IItem = {
                 ...item,
-                x:
-                    document
-                        .getElementById(`${item.name}`)
-                        ?.getBoundingClientRect().x ?? 0,
-                y:
-                    document
-                        .getElementById(`${item.name}`)
-                        ?.getBoundingClientRect().y ?? 0,
+                x: positionOption?.x ?? 0,
+                y: positionOption?.y ?? 0,
             };
 
             arrOptionNew.push(dataBuider);
