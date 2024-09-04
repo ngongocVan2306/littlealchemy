@@ -81,16 +81,16 @@ function App() {
     //     );
     // };
 
-    const handleClear = (): void => {
-        dispatch(clearItem());
-    };
-
     const handleFullScreen = (): void => {
         if (!document.fullscreenElement) {
             document.documentElement.requestFullscreen();
         } else if (document.exitFullscreen) {
             document.exitFullscreen();
         }
+    };
+
+    const handleClear = (): void => {
+        dispatch(clearItem());
     };
 
     const handleCloseModal = (): void => {
@@ -238,8 +238,7 @@ function App() {
                     <div
                         className="btn btn-level2"
                         onClick={() => {
-                            window.location.href =
-                                "https://littlealchemy2.com/";
+                            window.open("https://littlealchemy2.com/");
                         }}
                         style={{
                             backgroundImage: `url(${
