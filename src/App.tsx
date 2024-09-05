@@ -121,8 +121,8 @@ function App() {
     const handleDrag = (data: DragEvent<HTMLDivElement>, item: IItem) => {
         if (data.clientX !== 0 || data.clientY !== 0) {
             setCurrentPosition({
-                currentX: data.clientX,
-                currentY: data.clientY,
+                currentX: data.clientX - 20,
+                currentY: data.clientY - 20,
             });
             return;
         }
