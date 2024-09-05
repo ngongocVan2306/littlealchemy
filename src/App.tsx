@@ -87,15 +87,9 @@ function App() {
     // };
 
     // build thg
+    // mouse
 
-    const handleDrag = (data: DragEvent<HTMLDivElement>, item: IItem) => {
-        // console.log("X: " + data.clientX + " | Y: " + data.clientY);
-
-        if (data.clientX !== 0 || data.clientY !== 0) {
-            dispatch(saveLastDrag({ x: data.clientX, y: data.clientY }));
-            return;
-        }
-
+    const handleMove = (item: IItem) => {
         const dataBuider: IItem = {
             name: item.name,
             uuid: item.isOption ? uuidv4() : item.uuid,
@@ -113,6 +107,36 @@ function App() {
         dispatch(dragItem(dataBuider));
         dispatch(clearDrag());
     };
+
+    const handleDrag = (data: DragEvent<HTMLDivElement>, item: IItem) => {
+        if (data.clientX !== 0 || data.clientY !== 0) {
+            dispatch(saveLastDrag({ x: data.clientX, y: data.clientY }));
+            return;
+        }
+        handleMove(item);
+    };
+
+    // Touch
+
+    const handleTouchStart = (event: TouchEvent<HTMLDivElement>) => {
+        const touch = event.touches[0];
+        setDragging(true);
+        dispatch(saveLastDrag({ x: touch.clientX, y: touch.clientY }));
+    };
+
+    const handleTouchMove = (event: TouchEvent<HTMLDivElement>) => {
+        if (dragging) {
+            const touch = event.touches[0];
+            dispatch(saveLastDrag({ x: touch.clientX, y: touch.clientY }));
+        }
+    };
+
+    const handleTouchEnd = (item: IItem) => {
+        handleMove(item);
+        setDragging(false);
+    };
+
+    // lít button
 
     const handleFullScreen = (): void => {
         if (!document.fullscreenElement) {
@@ -129,39 +153,6 @@ function App() {
 
     const handleCloseModal = (): void => {
         setIsOpen(false);
-    };
-
-    const handleTouchStart = (event: TouchEvent<HTMLDivElement>) => {
-        const touch = event.touches[0];
-        setDragging(true);
-        dispatch(saveLastDrag({ x: touch.clientX, y: touch.clientY }));
-    };
-
-    const handleTouchMove = (event: TouchEvent<HTMLDivElement>) => {
-        if (dragging) {
-            const touch = event.touches[0];
-            dispatch(saveLastDrag({ x: touch.clientX, y: touch.clientY }));
-        }
-    };
-
-    const handleTouchEnd = (item: IItem) => {
-        const dataBuider: IItem = {
-            name: item.name,
-            uuid: item.isOption ? uuidv4() : item.uuid,
-            isOption: false,
-            x: lastX,
-            y: lastY,
-        };
-        setDragging(false);
-
-        if (item.isOption) {
-            dispatch(addItem(dataBuider));
-            dispatch(reloadOption(item));
-            setIsChange(!isChange);
-        }
-
-        dispatch(dragItem(dataBuider));
-        dispatch(clearDrag());
     };
 
     return (
