@@ -291,6 +291,9 @@ function App() {
                                     id={`${item.name}`}
                                     className={`item ${item.name}`}
                                     onDrag={(e) => handleDrag(e, item)}
+                                    onTouchStart={handleTouchStart}
+                                    onTouchMove={handleTouchMove}
+                                    onTouchEnd={() => handleTouchEnd(item)}
                                 >
                                     <img
                                         src={handleRenderImage(item.name)}
