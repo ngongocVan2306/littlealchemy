@@ -26,12 +26,20 @@ import leveTwoNight from "../public/level2_night.png";
 import clear from "../public/clear.png";
 import clearNight from "../public/clear_night.png";
 import ListText from "./components/ListText/ListText";
-import { clearDrag, saveLastDrag } from "./store/positionSlice";
+
+interface IPosition {
+    currentX: number;
+    currentY: number;
+}
 
 function App() {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [isChange, setIsChange] = useState<boolean>(false);
     const [dragging, setDragging] = useState<boolean>(false);
+    const [currentPosition, setCurrentPosition] = useState<IPosition>({
+        currentX: 0,
+        currentY: 0,
+    });
 
     const { result, itemSlice, optionSlice } = useAppSelector(
         (state: RootState) => state.optionSlice
@@ -40,7 +48,6 @@ function App() {
     const isDark: boolean = useAppSelector(
         (state: RootState) => state.themeSlice.isDark
     );
-    const { lastX, lastY } = useAppSelector((state) => state.positionSlice);
 
     const dispatch = useAppDispatch();
 
@@ -94,8 +101,8 @@ function App() {
             name: item.name,
             uuid: item.isOption ? uuidv4() : item.uuid,
             isOption: false,
-            x: lastX,
-            y: lastY,
+            x: currentPosition.currentX,
+            y: currentPosition.currentY,
         };
 
         if (item.isOption) {
@@ -105,12 +112,18 @@ function App() {
         }
 
         dispatch(dragItem(dataBuider));
-        dispatch(clearDrag());
+        setCurrentPosition({
+            currentX: 0,
+            currentY: 0,
+        });
     };
 
     const handleDrag = (data: DragEvent<HTMLDivElement>, item: IItem) => {
         if (data.clientX !== 0 || data.clientY !== 0) {
-            dispatch(saveLastDrag({ x: data.clientX, y: data.clientY }));
+            setCurrentPosition({
+                currentX: data.clientX,
+                currentY: data.clientY,
+            });
             return;
         }
         handleMove(item);
@@ -121,13 +134,19 @@ function App() {
     const handleTouchStart = (event: TouchEvent<HTMLDivElement>) => {
         const touch = event.touches[0];
         setDragging(true);
-        dispatch(saveLastDrag({ x: touch.clientX, y: touch.clientY }));
+        setCurrentPosition({
+            currentX: touch.clientX,
+            currentY: touch.clientY,
+        });
     };
 
     const handleTouchMove = (event: TouchEvent<HTMLDivElement>) => {
         if (dragging) {
             const touch = event.touches[0];
-            dispatch(saveLastDrag({ x: touch.clientX, y: touch.clientY }));
+            setCurrentPosition({
+                currentX: touch.clientX,
+                currentY: touch.clientY,
+            });
         }
     };
 
@@ -136,7 +155,7 @@ function App() {
         setDragging(false);
     };
 
-    // lít button
+    // handle button
 
     const handleFullScreen = (): void => {
         if (!document.fullscreenElement) {
