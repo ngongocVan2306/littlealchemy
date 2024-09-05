@@ -11,7 +11,7 @@ import {
     updatePositionOption,
 } from "./store/optionSlice";
 import { handleSwapOption } from "./helpers/handleSwapOption";
-import { DragEvent, useEffect, useState } from "react";
+import { DragEvent, TouchEvent, useEffect, useState } from "react";
 import ModalSetting from "./components/ModalSetting/ModalSetting";
 import { RootState } from "./store/store";
 import background from "../public/background.png";
@@ -26,11 +26,12 @@ import leveTwoNight from "../public/level2_night.png";
 import clear from "../public/clear.png";
 import clearNight from "../public/clear_night.png";
 import ListText from "./components/ListText/ListText";
-import { saveLastDrag } from "./store/positionSlice";
+import { clearDrag, saveLastDrag } from "./store/positionSlice";
 
 function App() {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [isChange, setIsChange] = useState<boolean>(false);
+    const [dragging, setDragging] = useState<boolean>(false);
 
     const { result, itemSlice, optionSlice } = useAppSelector(
         (state: RootState) => state.optionSlice
@@ -85,27 +86,10 @@ function App() {
     //     dispatch(dragItem(dataBuider));
     // };
 
-    const handleFullScreen = (): void => {
-        if (!document.fullscreenElement) {
-            document.documentElement.requestFullscreen();
-        } else if (document.exitFullscreen) {
-            document.exitFullscreen();
-        }
-    };
-
-    const handleClear = (): void => {
-        dispatch(clearItem());
-        setIsChange(!isChange);
-    };
-
-    const handleCloseModal = (): void => {
-        setIsOpen(false);
-    };
-
     // build thg
 
     const handleDrag = (data: DragEvent<HTMLDivElement>, item: IItem) => {
-        console.log("X: " + data.clientX + " | Y: " + data.clientY);
+        // console.log("X: " + data.clientX + " | Y: " + data.clientY);
 
         if (data.clientX !== 0 || data.clientY !== 0) {
             dispatch(saveLastDrag({ x: data.clientX, y: data.clientY }));
@@ -127,6 +111,57 @@ function App() {
         }
 
         dispatch(dragItem(dataBuider));
+        dispatch(clearDrag());
+    };
+
+    const handleFullScreen = (): void => {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen();
+        } else if (document.exitFullscreen) {
+            document.exitFullscreen();
+        }
+    };
+
+    const handleClear = (): void => {
+        dispatch(clearItem());
+        setIsChange(!isChange);
+    };
+
+    const handleCloseModal = (): void => {
+        setIsOpen(false);
+    };
+
+    const handleTouchStart = (event: TouchEvent<HTMLDivElement>) => {
+        const touch = event.touches[0];
+        setDragging(true);
+        dispatch(saveLastDrag({ x: touch.clientX, y: touch.clientY }));
+    };
+
+    const handleTouchMove = (event: TouchEvent<HTMLDivElement>) => {
+        if (dragging) {
+            const touch = event.touches[0];
+            dispatch(saveLastDrag({ x: touch.clientX, y: touch.clientY }));
+        }
+    };
+
+    const handleTouchEnd = (item: IItem) => {
+        const dataBuider: IItem = {
+            name: item.name,
+            uuid: item.isOption ? uuidv4() : item.uuid,
+            isOption: false,
+            x: lastX,
+            y: lastY,
+        };
+        setDragging(false);
+
+        if (item.isOption) {
+            dispatch(addItem(dataBuider));
+            dispatch(reloadOption(item));
+            setIsChange(!isChange);
+        }
+
+        dispatch(dragItem(dataBuider));
+        dispatch(clearDrag());
     };
 
     return (
@@ -177,9 +212,13 @@ function App() {
                                     className="list-item"
                                     onDrag={(e) => handleDrag(e, item)}
                                     style={{
-                                        marginLeft: `${item.x}px`,
-                                        marginTop: `${item.y}px`,
+                                        left: `${item.x}px`,
+                                        top: `${item.y}px`,
+                                        touchAction: "none",
                                     }}
+                                    onTouchStart={handleTouchStart}
+                                    onTouchMove={handleTouchMove}
+                                    onTouchEnd={() => handleTouchEnd(item)}
                                 >
                                     <img
                                         className="item"
@@ -195,6 +234,7 @@ function App() {
                                                     ? "var(--color-text-dark)"
                                                     : undefined
                                             }`,
+                                            margin: "0px",
                                         }}
                                     >
                                         {item.name}
